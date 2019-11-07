@@ -1,0 +1,44 @@
+{
+  "name": "sam-lora",
+  "title": "Microchip SAMR34 SAMR35",
+  "description": "Sam LoRa 2020 Georgi Angelov",
+  "url": "http://platformio.org/platforms/",
+  "homepage": "http://www.wizio.eu",
+  "license": "Apache-2.0",
+  "engines": { "platformio": "^3.0.0" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platformio/platform-sam-lora.git"
+  },
+  "version": "1.0.0",
+  "packageRepositories": [
+    "https://dl.bintray.com/platformio/dl-packages/manifest.json",
+    "http://dl.platformio.org/packages/manifest.json"   
+  ],
+  "frameworks": {
+    "arduino": {
+      "package": "framework-sam-lora",
+      "script": "builder/frameworks/arduino.py"
+    },
+    "baremetal": {
+      "package": "framework-sam-lora",
+      "script": "builder/frameworks/baremetal.py"
+    }                
+  },
+  "packages": {
+    "toolchain-gccarmnoneeabi": {
+      "type": "toolchain",
+      "version": "=1.70201.0"
+    }, 
+    "framework-sam-lora": {
+      "type": "framework",
+      "optional": true,
+      "version": ">=1.0.0"
+    },
+    "tool-sam-lora": {
+      "type": "uploader",
+      "version": "",
+      "optional": true
+    }      
+  }
+}
