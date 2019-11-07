@@ -7,4 +7,4 @@
 * It is very beta version - **may be bugs yet** 
 
 
-**do not install**
+# do not install yet
