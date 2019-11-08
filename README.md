@@ -8,7 +8,7 @@
 * It is very beta version - **may be bugs yet** 
 
 
-# do not install yet
+# Do not install yet...
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam.png)
 
