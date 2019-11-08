@@ -37,7 +37,7 @@
     },
     "tool-sam-lora": {
       "type": "uploader",
-      "version": "",
+      "version": "https://github.com/Wiz-IO/LIB/raw/master/sam-lora/tool-sam-lora.zip",
       "optional": true
     }      
   }
