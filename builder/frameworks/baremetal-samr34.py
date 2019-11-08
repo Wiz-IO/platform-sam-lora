@@ -34,13 +34,14 @@ def dev_compiler(env):
         SIZEDATAREGEXP=r"^(?:/.data|/.bss|/.noinit)/s+(/d+).*",
         SIZECHECKCMD="$SIZETOOL -A -d $SOURCES",
         SIZEPRINTCMD='$SIZETOOL --mcu=$BOARD_MCU -C -d $SOURCES',
-        PROGNAME="app",
+        #PROGNAME="app",
         PROGSUFFIX=".elf",  
     )
     env.Append(UPLOAD_PORT='sam') # upload_port = "must exist variable"
     env.cortex = ["-mcpu=cortex-m0plus", "-mfloat-abi=soft", "-mthumb"]
 
 def dev_init(env, platform):
+    framework_dir = env.PioPlatform().get_package_dir("framework-sam-lora")
     env.tool_dir = join(env.PioPlatform().get_package_dir("tool-sam-lora"))
     dev_create_template(env, [])
     dev_compiler(env)
@@ -48,6 +49,8 @@ def dev_init(env, platform):
     env.Append(
         CPPDEFINES = [ "__ATSAMR34J18B__", ],        
         CPPPATH = [       
+            join(framework_dir, 'samr3'),
+            join(framework_dir, 'samr3'),
             join("$PROJECT_DIR", "lib"),
             join("$PROJECT_DIR", "include")         
         ],        
@@ -55,8 +58,8 @@ def dev_init(env, platform):
             "-O0", 
             "-fno-omit-frame-pointer", 
             "-fno-strict-aliasing",  
-            "-Wall",    
-            "-fno-exceptions",                                                                   
+            "-fno-exceptions",
+            "-Wall",                                                                                   
         ],  
         CXXFLAGS = [    
             "-O0",                            
@@ -73,7 +76,7 @@ def dev_init(env, platform):
             "-Wl,--no-undefined", 
             "-Wl,-n",
         ],  
-        LDSCRIPT_PATH = join(env.framework_dir, "samr34", "sam.ld"),              
+        LDSCRIPT_PATH = join(env.framework_dir, 'samr3', 'samr34j18b_flash.ld'),            
         LIBPATH = [], 
         LIBSOURCE_DIRS=[ ],       
         LIBS = [ "gcc" ],               
@@ -82,11 +85,11 @@ def dev_init(env, platform):
                 action = env.VerboseAction(" ".join([
                     "$OBJCOPY",
                     "-O",
-                    "binary",
+                    "ihex",
                     "$SOURCES",
                     "$TARGET",
                 ]), "Building $TARGET"),
-                suffix = ".bin"
+                suffix = ".hex"
             ) 
         ), 
         UPLOADCMD = dev_upload
@@ -103,4 +106,4 @@ def dev_init(env, platform):
 
 
 
-    
+    #print('PROGNAME', env['PROGNAME'])

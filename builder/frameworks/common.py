@@ -31,16 +31,17 @@ def atprogram(target, source, env):
     cmd = []
     cmd.append( join(env.tool_dir, "atbackend", "atprogram") ) 
     for a in arg: cmd.append(a)
-
-    exe = cmd
-    exe.append('-v')
-    exe.append('erase')
-    print('EXECUTE', exe)
-    execute(exe)
     
+    """
+    exe = cmd
+    exe.append('erase')
+    print('ERASING')
+    execute(exe)
+    """
+
     exe = cmd
     exe.append('program')
     exe.append('-f')
-    exe.append(join(env.get("BUILD_DIR"), "program.hex"))
-    print('EXECUTE', exe)
+    exe.append(join(env.get("BUILD_DIR"), env['PROGNAME'] + ".hex"))
+    print('PROGRAMING')
     execute(exe)
