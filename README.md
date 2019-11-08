@@ -4,6 +4,7 @@
 * OS Windows **( for now )** 
 * * Baremetal
 * * Arduino
+* Test board [Microchip SAM R34 Xplained Pro](https://www.microchip.com/DevelopmentTools/ProductDetails/dm320111)
 * It is very beta version - **may be bugs yet** 
 
 
