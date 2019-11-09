@@ -10,7 +10,7 @@
 
 ## Platform Installation
 
-_( work only baremetal part )_
+_( **work only baremetal part** )_
 
 Install VS Code + PlatformIO
 
