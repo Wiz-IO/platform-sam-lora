@@ -5,7 +5,8 @@
 * * Baremetal
 * * Arduino ( in process )
 * BOARD [Microchip SAM R34 Xplained Pro](https://www.microchip.com/DevelopmentTools/ProductDetails/dm320111)
-* It is very beta version - **may be bugs yet** 
+
+The project is in process and is very beta version - **may be bugs** 
 
 
 ## Platform Installation
