@@ -1,10 +1,12 @@
-############################################################################
+##########################################################################
 #
-#   IN PROCESS...
-#
-############################################################################
+#   WizIO 2020 Georgi Angelov
+#       http://www.wizio.eu/
+#       https://github.com/Wiz-IO/platform-sam-lora
 # 
-# Microchip Atmel SAMR3x Flash Utility ver 1.00 MOD PlatformIO
+##########################################################################
+# 
+# Microchip Atmel SAMR3x Flash Utility ver 1.00 PlatformIO
 #
 #   Copyright (C) 2019 Georgi Angelov. All rights reserved.
 #   Author: Georgi Angelov <the.wizarda@gmail.com> WizIO
@@ -48,16 +50,30 @@ from os.path import join
 from serial import Serial
 from binascii import hexlify
 import inspect
+############################################################################
+PYTHON2 = sys.version_info[0] < 3  # True if on pre-Python 3
+
+if PYTHON2:
+    pass
+else:
+    def xrange(*args, **kwargs):
+        return iter( range(*args, **kwargs) )
+############################################################################
 
 DEBUG = False
 
 BLOCK_SIZE  = 64
 PAGE_SIZE   = 256
 
+ATTN        = b'#'
 CONF        = b'C'
-STOP        = b'S'
+
+PING        = b'P'
+PONG        = b'p'
+
 ACK         = b'A'
 NACK        = b'N'
+
 DA_ERASE    = b'E'
 DA_WRITE    = b'W'
 DA_READ     = b'R'
@@ -68,6 +84,7 @@ if sys.version_info >= (3, 0):
         return iter(range(*args, **kwargs))
 
 def ERROR(message):
+    time.sleep(0.1)
     print("\n\033[31mERROR: {}\n\r".format(message))
     exit(2)
 
@@ -90,23 +107,41 @@ def PB_END():
 def HEX(s):
     return hexlify(s).decode("ascii").upper()
 
+def checksum(data, c = 0): 
+    for i in range( len(data) ): 
+        if PYTHON2:
+            c += ord( data[i] ) #py2
+        else:
+            c += data[i]        #py3
+    return c
+
 class SAMR:
     def __init__(self, ser):
         self.s = ser
         self.dir = os.path.dirname( os.path.realpath(__file__) )    
 
     def da_erase_block(self, addr):
-        self.s.write(DA_ERASE + struct.pack("II", addr, 0x12345678))
-        r = self.s.read(1)
-        ASSERT( CONF == r, "erase block: "+ str(addr))
+        crc = checksum( struct.pack("I", addr) )
+        self.s.write(ATTN + DA_ERASE + struct.pack("IH", addr, crc & 0xFFFF))
+        r = self.s.read(2)
+        ASSERT( CONF+CONF == r, "[{}] erase block[256]: {}".format(r, hex(addr)))
 
-    def da_write_block(self, addr):
-        self.s.write(DA_WRITE + struct.pack("I", addr))
-        r = self.s.read(1)
-        ASSERT( CONF == r, "write block: "+ str(addr)) 
-        for i in range(64):   
-            self.s.write(b'X') # write block data  
-        self.s.write(struct.pack("I", 0)) # crc
+    def da_write_block(self, addr, data = 64 * b'\xFF'):
+        crc = checksum( data, checksum( struct.pack("I", addr) ) ) 
+        self.s.write(ATTN + DA_WRITE + struct.pack("I", addr))
+        self.s.write(data)
+        self.s.write(struct.pack("H", crc & 0xFFFF))
+        r = self.s.read(2)
+        ASSERT( CONF + CONF == r, "[{}] write block[64]: {}".format(r, hex(addr)))    
+
+    def da_read_block(self, addr, size = 64):
+        crc = checksum( struct.pack("IH", addr, size) )
+        self.s.write(ATTN + DA_READ + struct.pack("IH", addr, size))
+        self.s.write(struct.pack("H", crc & 0xFFFF))
+        r = self.s.read(2)
+        ASSERT( CONF + CONF == r, "[{}] read block[64]: {}".format(r, hex(addr)))   
+        r = self.s.read(size)
+        print(HEX(r))           
 
     def connect(self, timeout = 9.0):
         self.s.timeout = 0.1
@@ -119,9 +154,9 @@ class SAMR:
             self.s.write( ACK ) 
             r = self.s.read(4)   
             if b'BOOT' == r: 
-                self.s.write( CONF ) 
-                r = self.s.read(1)
-                if STOP == r:
+                time.sleep(0.1)
+                self.s.write( ATTN + PING ) 
+                if PONG + PONG == self.s.read(2):
                     break       
                 else: 
                     ERROR("BOOT")
@@ -130,22 +165,37 @@ class SAMR:
                 ERROR("Timeout") 
         PB_END(); 
 
-def upload_app(module, file_name, com_port):  
-    m = SAMR( Serial( com_port, 115200 ) )
-    m.connect() 
+def test_erase(m):
     print('ERASING')
     PB_BEGIN() 
-    for i in range(100): 
-        m.da_erase_block(i+0x2000)
+    for i in xrange(0, 0x2000, 256): 
+        m.da_erase_block(i + 0x2000)
         PB_STEP()
-    PB_END()
+    PB_END()    
+
+def test_write(m):
     print('PROGRAMING')   
     PB_BEGIN() 
-    for i in range(100): 
-        m.da_write_block(i+0x2000)
+    for i in xrange(0, 0x2000, 64): 
+        m.da_write_block(i + 0x2000)
         PB_STEP()
     PB_END()      
 
+def test_read(m):
+    print('READING')   
+    PB_BEGIN() 
+    for i in xrange(0, 0x200, 64): 
+        m.da_read_block(i+0x2000)
+        PB_STEP()
+    PB_END()   
+
+def upload_app(module, file_name, com_port):  
+    m = SAMR( Serial( com_port, 115200 ) )
+    # FILE SIZE
+    # OPEN FILE
+    
+    m.connect() 
+    test_read(m)
     print('DONE')   
   
 

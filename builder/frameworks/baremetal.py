@@ -1,7 +1,10 @@
-
-# WizIO 2018 Georgi Angelov
-#   http://www.wizio.eu/
-#   https://github.com/Wiz-IO/platform-sam-lora
+##########################################################################
+#
+#   WizIO 2020 Georgi Angelov
+#       http://www.wizio.eu/
+#       https://github.com/Wiz-IO/platform-sam-lora
+# 
+##########################################################################
 
 from SCons.Script import DefaultEnvironment
 
