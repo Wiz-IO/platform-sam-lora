@@ -8,7 +8,21 @@
 * It is very beta version - **may be bugs yet** 
 
 
-# Do not install yet...
+# Platform Installation
+
+## _( work only baremetal part )_
+
+Install VS Code + PlatformIO
+
+PlatformIO - Home - Platforms - Advanced Installation
+
+Paste link: https://github.com/Wiz-IO/platform-sam-lora
+
+## Fast Uninstal
+* goto C:\Users\USER_NAME\.platformio\platforms **delete** folder **sam-lora** ( builders )
+* goto C:\Users\USER_NAME\.platformio\packages **delete** folder **framework-sam-lora** ( sources )
+* goto C:\Users\USER_NAME\.platformio\packages **delete** folder **tool-sam-lora** ( azsphere )
+* goto C:\Users\USER_NAME\.platformio\packages **delete** folder **toolchain-gccarmnoneeabi** (compiler )
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam.png)
 
