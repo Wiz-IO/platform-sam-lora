@@ -32,13 +32,11 @@
     }, 
     "framework-sam-lora": {
       "type": "framework",
-      "optional": true,
-      "version": ">=1.0.0"
+      "version": "https://github.com/Wiz-IO/framework-sam-lora" 
     },
     "tool-sam-lora": {
       "type": "uploader",
-      "version": "https://github.com/Wiz-IO/LIB/raw/master/sam-lora/tool-sam-lora.zip",
-      "optional": true
+      "version": "https://github.com/Wiz-IO/LIB/raw/master/sam-lora/tool-sam-lora.zip"
     }      
   }
 }
