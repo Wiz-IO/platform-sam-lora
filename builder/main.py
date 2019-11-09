@@ -13,12 +13,11 @@
 # limitations under the License.
 #
 ##########################################################################
-# Autor: WizIO 2018 Georgi Angelov
-#   http://www.wizio.eu/
-#   https://github.com/Wiz-IO/platform-wizio-lora
+#
+#   WizIO 2020 Georgi Angelov
+#       http://www.wizio.eu/
+#       https://github.com/Wiz-IO/platform-sam-lora
 # 
-# Support: Comet Electronics 
-#   https://www.comet.bg/?cid=92
 ##########################################################################
 
 from os.path import join
@@ -27,9 +26,15 @@ from colorama import Fore
 
 env = DefaultEnvironment()
 print( Fore.GREEN + '<<<<<<<<<<<< ' + env.BoardConfig().get("name").upper() + " 2019 Georgi Angelov >>>>>>>>>>>>" + Fore.BLACK )
+
 elf = env.BuildProgram()
-src = env.PackImage( join("$BUILD_DIR", "${PROGNAME}"), elf ) 
-AlwaysBuild( src )
-upload = env.Alias("upload", src, [ env.VerboseAction("$UPLOADCMD", "\n"), env.VerboseAction("", "\n") ] )
+bin = env.CreateBin( join("$BUILD_DIR", "${PROGNAME}"), elf ) 
+hex = env.CreateHex( join("$BUILD_DIR", "${PROGNAME}"), elf ) 
+AlwaysBuild( hex, bin )
+
+#env.Depends(hex, env.CreateBin( join("$BUILD_DIR", "${PROGNAME}"), elf ))
+
+upload = env.Alias("upload", hex, [ env.VerboseAction("$UPLOADCMD", "\n"), env.VerboseAction("", "\n") ] )
 AlwaysBuild( upload )    
-Default( src )
+
+Default( hex, bin )
