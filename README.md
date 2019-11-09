@@ -8,9 +8,9 @@
 * It is very beta version - **may be bugs yet** 
 
 
-# Platform Installation
+## Platform Installation
 
-## _( work only baremetal part )_
+_( work only baremetal part )_
 
 Install VS Code + PlatformIO
 
@@ -26,7 +26,7 @@ Paste link: https://github.com/Wiz-IO/platform-sam-lora
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam.png)
 
-# Road Map
+## Road Map
 * Baremetal Uploaders ( now work with atbackend/atprogram )
 * Baremetal ASF/CMSIS
 * Arduino Bootloader
