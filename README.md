@@ -12,7 +12,7 @@ The project is in process and is very beta version - **may be bugs**
 
 ## Platform Installation
 
-_( **work only baremetal part** )_
+_( **for now work only baremetal part** )_
 
 Install VS Code + PlatformIO
 
