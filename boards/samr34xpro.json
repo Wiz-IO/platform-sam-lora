@@ -1,14 +1,12 @@
 {
   "vendor": "Microchip",  
-  "name": "Microchip SAM R34 Xplained Pro",
+  "name": "Microchip ATSAMR34 Xplained Pro (S)",
   "url": "https://www.microchip.com/design-centers/wireless-connectivity/low-power-wide-area-networks/lora-technology/sam-r34-r35",
   "build": {
-    "core": "samr34",
-    "chip": "samr34j18",
-    "f_cpu": "48000000L",
-    "mcu": "ATSAMR34J18",
-    "variant": "samr34xpro",
-    "arduino-ld": "samr34j18b_flash.ld",
+    "mcu":          "ATSAMR34J18B",
+    "core":         "samr34",
+    "variant":      "samr34xpro",
+    "arduino-ld":   "samr34j18b_flash.ld",
     "baremetal-ld": "samr34j18b_flash.ld"
   },
   "debug": {},  
@@ -17,6 +15,6 @@
         "maximum_ram_size": 40000,
         "maximum_size": 256000,
         "tool" : "atprogram",
-        "args" : ["-i","SWD","-t","edbg","-d","ATSAMR34J18B"]
+        "args" : [ "-i", "SWD", "-t", "edbg", "-d", "ATSAMR34J18B" ]
   }
 }
