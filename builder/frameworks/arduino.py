@@ -11,4 +11,6 @@ module = platform + "-" + env.BoardConfig().get("build.core")
 m = __import__(module)       
 globals()[module] = m
 m.dev_init(env, platform)
-#print( env.Dump() )
+
+print('---= NOT SUPPORTED YET - IN PROCESS =---')
+exit(1)
