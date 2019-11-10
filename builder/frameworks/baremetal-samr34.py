@@ -18,20 +18,22 @@ def dev_upload(target, source, env):
 
 def dev_compiler(env):
     set_compiler(env)
-    env.Append(UPLOAD_PORT='sam') # upload_port = "must exist"
+    env.Append(UPLOAD_PORT='atprogram') 
     env.cortex = ["-mcpu=cortex-m0plus", "-mfloat-abi=soft", "-mthumb"]
 
 def dev_init(env, platform):
-    framework_dir = env.PioPlatform().get_package_dir("framework-sam-lora")
+    env.framework_dir = env.PioPlatform().get_package_dir("framework-sam-lora")
     env.tool_dir = join(env.PioPlatform().get_package_dir("tool-sam-lora"))
     create_template(env, [ 'main.c', 'startup_samr34.c' ])
     dev_compiler(env)
-    env.framework_dir = env.PioPlatform().get_package_dir("framework-sam-lora")
+    
     env.Append(
-        CPPDEFINES = [ "__ATSAMR34J18B__", ],        
+        CPPDEFINES = [ 
+            "__{}__".format(env.BoardConfig().get("build.mcu")),
+         ],        
         CPPPATH = [       
-            join(framework_dir, 'samr3'),
-            join(framework_dir, 'baremetal', 'include'),
+            join(env.framework_dir, 'samr3'),
+            join(env.framework_dir, 'baremetal', 'include'),
             join("$PROJECT_DIR", "lib"),
             join("$PROJECT_DIR", "include")         
         ],        
@@ -50,7 +52,9 @@ def dev_init(env, platform):
             "-fno-use-cxa-atexit",
             "-fno-threadsafe-statics",
         ],  
-        CCFLAGS = [ env.cortex ], 
+        CCFLAGS = [ 
+            env.cortex 
+        ], 
         LINKFLAGS = [ 
             env.cortex, 
             "-nostartfiles", 
