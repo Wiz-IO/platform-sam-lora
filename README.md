@@ -8,6 +8,7 @@
 
 The project is in process and is very beta version - **may be bugs** 
 
+[The first steps - youtube](https://www.youtube.com/watch?v=Bhc3n0Go5KI)
 
 ## Platform Installation
 
