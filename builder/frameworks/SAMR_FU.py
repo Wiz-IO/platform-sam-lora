@@ -62,6 +62,9 @@ else:
 
 DEBUG = False
 
+START_ADDRESS = 0x02000
+MAX_ADDRESS   = 0x40000
+
 BLOCK_SIZE  = 64
 PAGE_SIZE   = 256
 
@@ -115,6 +118,13 @@ def checksum(data, c = 0):
             c += data[i]        #py3
     return c
 
+def align(size, mask):
+    F = size / mask
+    B = int(F)
+    if F % 1 > 0: 
+        B += 1  
+    return B
+
 class SAMR:
     def __init__(self, ser):
         self.s = ser
@@ -146,7 +156,7 @@ class SAMR:
     def connect(self, timeout = 9.0):
         self.s.timeout = 0.1
         c = 0
-        print('WAIT RESET')
+        print('WAITING RESET')
         PB_BEGIN()
         while True:
             if c % 10 == 0: PB_STEP()
@@ -165,39 +175,50 @@ class SAMR:
                 ERROR("Timeout") 
         PB_END(); 
 
-def test_erase(m):
-    print('ERASING')
-    PB_BEGIN() 
-    for i in xrange(0, 0x2000, 256): 
-        m.da_erase_block(i + 0x2000)
-        PB_STEP()
-    PB_END()    
+    def update(self, start_address, path):
+        ext = path.split(".")
+        ASSERT( os.path.isfile(path), "Firmware not exist")
+        ASSERT( 'bin' == ext[-1], "Firmware is a not bin file")        
+        size = os.path.getsize(path)
+        ASSERT( size > 64, "Firmware is too small")
+        ASSERT( start_address + size < MAX_ADDRESS, "Firmware size is too big")
 
-def test_write(m):
-    print('PROGRAMING')   
-    PB_BEGIN() 
-    for i in xrange(0, 0x2000, 64): 
-        m.da_write_block(i + 0x2000)
-        PB_STEP()
-    PB_END()      
+        print('ERASING')
+        PB_BEGIN()  
+        B = align(size, PAGE_SIZE)   
+        for i in range( B ):
+            address = start_address + (i * PAGE_SIZE)
+            #print('erase', i, hex(address))
+            self.da_erase_block(address)
+            PB_STEP()
+        PB_END() 
 
-def test_read(m):
-    print('READING')   
-    PB_BEGIN() 
-    for i in xrange(0, 0x200, 64): 
-        m.da_read_block(i+0x2000)
-        PB_STEP()
-    PB_END()   
+        print('PROGRAMING', os.path.basename(path), '({} bytes) '.format(size)) 
+        PB_BEGIN() 
+        f = open(path, 'rb')        
+        B = align(size, BLOCK_SIZE)
+        f.seek(64) # skip the first block
+        for i in range( B - 1 ): 
+            data = f.read(BLOCK_SIZE)
+            m = BLOCK_SIZE - len(data) 
+            if m > 0: data = data + ( m * b'\xFF' )
+            address = start_address + (i * BLOCK_SIZE) + 64
+            #if data: print('write', i, hex(address))            
+            self.da_write_block(address, data)
+            PB_STEP()
+        f.seek(0) # write the first block
+        self.da_write_block(start_address, f.read(BLOCK_SIZE))
+        f.close()            
+        PB_END()
+         
 
-def upload_app(module, file_name, com_port):  
-    m = SAMR( Serial( com_port, 115200 ) )
-    # FILE SIZE
-    # OPEN FILE
-    
+
+def upload_app(address, path, com_port):  
+    m = SAMR( Serial( com_port, 115200 ) )    
     m.connect() 
-    test_read(m)
-    print('DONE')   
+    m.update(address, path)  
+    print()
   
 
 if __name__ == "__main__":
-    upload_app('SAM34', 'file_name', 'COM19')
+    upload_app(START_ADDRESS, 'C:\\Users\\HP\\.platformio\\platforms\\sam-lora\\builder\\frameworks\\program.bin', 'COM19')

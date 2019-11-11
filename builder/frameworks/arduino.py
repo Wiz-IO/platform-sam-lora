@@ -1,7 +1,11 @@
 
-# WizIO 2018 Georgi Angelov
-# http://www.wizio.eu/
-# https://github.com/Wiz-IO/platform-wizio-lora
+##########################################################################
+#
+#   WizIO 2020 Georgi Angelov
+#       http://www.wizio.eu/
+#       https://github.com/Wiz-IO/platform-sam-lora
+# 
+##########################################################################
 
 from SCons.Script import DefaultEnvironment
 
@@ -11,6 +15,4 @@ module = platform + "-" + env.BoardConfig().get("build.core")
 m = __import__(module)       
 globals()[module] = m
 m.dev_init(env, platform)
-
-print('---= NOT SUPPORTED YET - IN PROCESS =---')
-exit(1)
+#print( env.Dump() )

@@ -26,7 +26,7 @@ def dev_init(env, platform):
     env.tool_dir = join(env.PioPlatform().get_package_dir("tool-sam-lora"))
     create_template(env, [ 'main.c', 'startup_samr34.c' ])
     dev_compiler(env)
-    
+    env.app = env.BoardConfig().get('build.app', '0x0')  
     env.Append(
         CPPDEFINES = [ 
             "__{}__".format(env.BoardConfig().get("build.mcu")),
@@ -42,6 +42,7 @@ def dev_init(env, platform):
             "-fno-omit-frame-pointer", 
             "-fno-strict-aliasing",  
             "-fno-exceptions",
+            "-fno-builtin",
             "-Wall",                                                                                   
         ],  
         CXXFLAGS = [    
@@ -60,6 +61,7 @@ def dev_init(env, platform):
             "-nostartfiles", 
             "-Wl,--no-undefined", 
             "-Wl,-n",
+            "-Xlinker", "--defsym=APP_BASE=" + env.app,
         ],  
         LDSCRIPT_PATH = join(env.framework_dir, 'samr3', env.BoardConfig().get('build.' + platform + '-ld')),            
         LIBPATH = [], 
