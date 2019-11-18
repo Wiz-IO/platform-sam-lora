@@ -11,6 +11,7 @@ The project is in process and is very beta version - **may be bugs**
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam34-oled.jpg)
 
 [The first steps - youtube](https://www.youtube.com/watch?v=Bhc3n0Go5KI)
+[Simple LoRa](https://www.youtube.com/watch?v=3bJiQ3b2fgA)
 
 ## Platform Installation
 
