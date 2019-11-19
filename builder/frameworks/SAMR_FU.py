@@ -40,7 +40,7 @@
 #
 ############################################################################
 # Dependency:
-#      pyserial
+#      pyserial, colorama
 ############################################################################
 
 from __future__ import print_function
@@ -49,6 +49,7 @@ import os.path
 from os.path import join
 from serial import Serial
 from binascii import hexlify
+from colorama import Fore
 import inspect
 ############################################################################
 PYTHON2 = sys.version_info[0] < 3  # True if on pre-Python 3
@@ -88,27 +89,36 @@ if sys.version_info >= (3, 0):
 
 def ERROR(message):
     time.sleep(0.1)
-    print("\n\033[31mERROR: {}\n\r".format(message))
+    print()
+    print("{}[ERROR] {}\n\r".format(Fore.RED, message))
+    time.sleep(0.1)
     exit(2)
 
 def ASSERT(flag, message):
     if flag == False:
         ERROR(message)
 
+pb = 0
 def PB_BEGIN():
+    global pb
+    pb = 0
     if DEBUG == False:
-        sys.stdout.write('\033[94m<')
+        sys.stdout.write('<')
 
 def PB_STEP():
+    global pb
     if DEBUG == False:
-        sys.stdout.write('.')    
+        if pb % 4 == 0:
+            sys.stdout.write('.')   
+        pb += 1 
 
 def PB_END():
     if DEBUG == False:
-        sys.stdout.write("> DONE\n")
+        sys.stdout.write(">\n")
 
 def HEX(s):
-    return hexlify(s).decode("ascii").upper()
+    if s: return hexlify(s).decode("ascii").upper()
+    return ''
 
 def checksum(data, c = 0): 
     for i in range( len(data) ): 
@@ -119,7 +129,7 @@ def checksum(data, c = 0):
     return c
 
 def align(size, mask):
-    F = size / mask
+    F = float(size) / float(mask)
     B = int(F)
     if F % 1 > 0: 
         B += 1  
@@ -136,13 +146,13 @@ class SAMR:
         r = self.s.read(2)
         ASSERT( CONF+CONF == r, "[{}] erase block[256]: {}".format(r, hex(addr)))
 
-    def da_write_block(self, addr, data = 64 * b'\xFF'):
+    def da_write_block(self, addr, data):
         crc = checksum( data, checksum( struct.pack("I", addr) ) ) 
         self.s.write(ATTN + DA_WRITE + struct.pack("I", addr))
         self.s.write(data)
         self.s.write(struct.pack("H", crc & 0xFFFF))
         r = self.s.read(2)
-        ASSERT( CONF + CONF == r, "[{}] write block[64]: {}".format(r, hex(addr)))    
+        ASSERT( CONF + CONF == r, "{} write block[64]: {}".format(HEX(r), hex(addr)))    
 
     def da_read_block(self, addr, size = 64):
         crc = checksum( struct.pack("IH", addr, size) )
@@ -151,9 +161,10 @@ class SAMR:
         r = self.s.read(2)
         ASSERT( CONF + CONF == r, "[{}] read block[64]: {}".format(r, hex(addr)))   
         r = self.s.read(size)
-        print(HEX(r))           
+        #print(HEX(r))    
+        return r       
 
-    def connect(self, timeout = 9.0):
+    def connect(self, timeout = 20.0):
         self.s.timeout = 0.1
         c = 0
         print('WAITING RESET')
@@ -174,18 +185,19 @@ class SAMR:
             if timeout < 0:
                 ERROR("Timeout") 
         PB_END(); 
+        self.s.timeout = 1.0
 
     def update(self, start_address, path):
         ext = path.split(".")
-        ASSERT( os.path.isfile(path), "Firmware not exist")
+        ASSERT( os.path.isfile(path), "Firmware not exist: " + path)
         ASSERT( 'bin' == ext[-1], "Firmware is a not bin file")        
         size = os.path.getsize(path)
         ASSERT( size > 64, "Firmware is too small")
         ASSERT( start_address + size < MAX_ADDRESS, "Firmware size is too big")
 
-        print('ERASING')
+        B = align(size, PAGE_SIZE) 
+        print('ERASING {} blocks '.format(B)) 
         PB_BEGIN()  
-        B = align(size, PAGE_SIZE)   
         for i in range( B ):
             address = start_address + (i * PAGE_SIZE)
             #print('erase', i, hex(address))
@@ -193,32 +205,42 @@ class SAMR:
             PB_STEP()
         PB_END() 
 
-        print('PROGRAMING', os.path.basename(path), '({} bytes) '.format(size)) 
-        PB_BEGIN() 
         f = open(path, 'rb')        
         B = align(size, BLOCK_SIZE)
-        f.seek(64) # skip the first block
-        for i in range( B - 1 ): 
+        print('PROGRAMING {} bytes in {} blocks'.format(size, B)) 
+        # skip the first block
+        f.seek(64) 
+        PB_BEGIN() 
+        for i in range(1, B): 
             data = f.read(BLOCK_SIZE)
             m = BLOCK_SIZE - len(data) 
             if m > 0: data = data + ( m * b'\xFF' )
-            address = start_address + (i * BLOCK_SIZE) + 64
-            #if data: print('write', i, hex(address))            
+            address = start_address + (i * BLOCK_SIZE)
+            #print('write', i, hex(address))            
             self.da_write_block(address, data)
             PB_STEP()
-        f.seek(0) # write the first block
+        # write the first block    
+        f.seek(0) 
         self.da_write_block(start_address, f.read(BLOCK_SIZE))
         f.close()            
         PB_END()
          
 
-
-def upload_app(address, path, com_port):  
-    m = SAMR( Serial( com_port, 115200 ) )    
+def fu_upload_app(address, path, com_port):  
+    m = SAMR( Serial(com_port, 115200) )    
     m.connect() 
     m.update(address, path)  
-    print()
+    m.s.close()
   
+def fu_read_app(address, path, com_port):
+    m = SAMR( Serial( com_port, 115200 ) )    
+    m.connect() 
+    f = open(path, 'wb')  
+    for i in range(1000): # 64k
+        f.write( m.da_read_block(address +(i*64) ) )
+    f.close()
+    m.s.close()
 
 if __name__ == "__main__":
-    upload_app(START_ADDRESS, 'C:\\Users\\HP\\.platformio\\platforms\\sam-lora\\builder\\frameworks\\program.bin', 'COM19')
+    fu_upload_app(START_ADDRESS, 'C:\\Users\\HP\\Documents\\PlatformIO\\Projects\\ARDUINO_SAM\\.pio\\build\\samr34xpro\\program.bin', 'COM19')
+    #fu_read_app(START_ADDRESS, 'C:\\Users\\HP\\Documents\\PlatformIO\\Projects\\ARDUINO_SAM\\.pio\\build\\samr34xpro\\read.bin', 'COM19')

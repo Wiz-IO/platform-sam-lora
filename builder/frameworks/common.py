@@ -25,10 +25,10 @@ def set_compiler(env):
         RANLIB="arm-none-eabi-ranlib",
         SIZETOOL="arm-none-eabi-size",
         ARFLAGS=["rc"],
-        SIZEPROGREGEXP=r"^(?:/.text|/.data|/.bootloader)/s+(/d+).*",
-        SIZEDATAREGEXP=r"^(?:/.data|/.bss|/.noinit)/s+(/d+).*",
+        SIZEPROGREGEXP=r"^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx)\s+(\d+).*",
+        SIZEDATAREGEXP=r"^(?:\.data|\.bss|\.noinit)\s+(\d+).*",
         SIZECHECKCMD="$SIZETOOL -A -d $SOURCES",
-        SIZEPRINTCMD='$SIZETOOL --mcu=$BOARD_MCU -C -d $SOURCES',
+        SIZEPRINTCMD='$SIZETOOL -B -d $SOURCES',
         #PROGNAME="app",
         PROGSUFFIX=".elf",  
     )
