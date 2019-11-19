@@ -12,9 +12,10 @@ The project is in process and is very beta version - **may be bugs**
 * CMSIS
 
 ## Arduino Core
-* Base core
+* Arduino base core
 * Serial
 * GPIO board LEDs and BUTTON 
+* Variant: Microchip SAM R34 Xplained Pro
 
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam34-oled.jpg)
