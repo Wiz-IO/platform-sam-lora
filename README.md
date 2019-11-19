@@ -16,6 +16,7 @@ The project is in process and is very beta version - **may be bugs**
 * Serial
 * GPIO board LEDs and BUTTON 
 * Variant: Microchip SAM R34 Xplained Pro
+* [Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/src/main.cpp)
 
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam34-oled.jpg)
