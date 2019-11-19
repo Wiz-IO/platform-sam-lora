@@ -28,8 +28,6 @@ The project is in process and is very beta version - **may be bugs**
 
 ## Platform Installation
 
-_( **for now work only baremetal part** )_
-
 Install VS Code + PlatformIO
 
 PlatformIO - Home - Platforms - Advanced Installation
