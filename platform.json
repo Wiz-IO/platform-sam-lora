@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/platformio/platform-sam-lora.git"
   },
-  "version": "1.0.0",
+  "version": "0.0.4",
   "packageRepositories": [
     "https://dl.bintray.com/platformio/dl-packages/manifest.json",
     "http://dl.platformio.org/packages/manifest.json"   
