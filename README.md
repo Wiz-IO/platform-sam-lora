@@ -42,6 +42,26 @@ Paste link: https://github.com/Wiz-IO/platform-sam-lora
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam.png)
 
+## Baremetal INI
+```ini
+[env:samr34xpro]
+platform = sam-lora
+board = samr34xpro
+framework = baremetal
+monitor_port = COMx     
+monitor_speed = 115200  
+```
+
+## Arduino INI
+```ini
+[env:samr34xpro]
+platform = sam-lora
+board = samr34xpro
+framework = arduino
+monitor_port = COMx     
+monitor_speed = 115200  
+```
+
 ## Road Map
 * Baremetal Uploaders ( now work with atbackend/atprogram )
 * Baremetal ASF/CMSIS
