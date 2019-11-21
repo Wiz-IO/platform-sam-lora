@@ -14,8 +14,7 @@ The project is in process and is very beta version - **may be bugs**
 
 ## Arduino Core
 * Arduino base core
-* Serial
-* GPIO board LEDs and BUTTON 
+* GPIO, Serial, I2C, SPI
 * Variant: Microchip SAM R34 Xplained Pro
 * [Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/src/main.cpp)
 
