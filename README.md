@@ -1,6 +1,6 @@
 # Microchip Atmel ATSAM3x platform for PlatformIO
 
- **Version 0.0.4** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
+ **Version 0.0.5** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
 * OS Windows **( for now )** 
 * * Baremetal
 * * Arduino ( in process... added base core )
