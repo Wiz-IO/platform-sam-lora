@@ -16,8 +16,8 @@ The project is in process and is very beta version - **may be bugs**
 * Arduino core
 * GPIO, Serial, I2C, SPI
 * Variant: Microchip SAM R34 Xplained Pro
-* [Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/src/main.cpp)
-
+* [Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/)
+* [OLED from the screenshot](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/arduino_oled_i2c)
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam34-oled.jpg)
 
