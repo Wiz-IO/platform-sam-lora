@@ -4,7 +4,7 @@
 * OS Windows **( for now )** 
 * * Baremetal
 * * Arduino ( in process... added base core )
-* BOARD [Microchip SAM R34 Xplained Pro](https://www.microchip.com/DevelopmentTools/ProductDetails/dm320111)
+* Board [Microchip SAM R34 Xplained Pro](https://www.microchip.com/DevelopmentTools/ProductDetails/dm320111)
 * [Framework Source Codes](https://github.com/Wiz-IO/framework-sam-lora)
 
 The project is in process and is very beta version - **may be bugs** 
