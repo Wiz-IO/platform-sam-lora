@@ -3,7 +3,7 @@
  **Version 0.0.6** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
 * OS Windows **( for now )** 
 * * Baremetal
-* * Arduino ( in process... added base core )
+* * Arduino ( in process... )
 * Board [Microchip SAM R34 Xplained Pro](https://www.microchip.com/DevelopmentTools/ProductDetails/dm320111)
 * [Framework Source Codes](https://github.com/Wiz-IO/framework-sam-lora)
 
