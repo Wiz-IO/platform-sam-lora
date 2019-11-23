@@ -28,6 +28,10 @@ def dev_init(env, platform):
     dev_compiler(env)
     env.app = env.BoardConfig().get('build.app', '0x0')  
     env.Append(
+        ASFLAGS=[
+            env.cortex,
+            "-x", "assembler-with-cpp"
+        ],        
         CPPDEFINES = [ 
             "__{}__".format(env.BoardConfig().get("build.mcu")),
          ],        
@@ -39,14 +43,16 @@ def dev_init(env, platform):
         ],        
         CFLAGS = [ 
             "-O0", 
+            "-Wall", 
+            "-Wfatal-errors",
             "-fno-omit-frame-pointer", 
-            "-fno-strict-aliasing",  
-            "-fno-exceptions",
-            "-fno-builtin",
-            "-Wall",                                                                                   
+            "-fno-strict-aliasing",                 
+            "-fno-exceptions",                                                                                    
         ],  
         CXXFLAGS = [    
-            "-O0",                            
+            "-O0",      
+            "-Wall",   
+            "-Wfatal-errors",                   
             "-fno-rtti",
             "-fno-exceptions", 
             "-fno-non-call-exceptions",
@@ -54,13 +60,18 @@ def dev_init(env, platform):
             "-fno-threadsafe-statics",
         ],  
         CCFLAGS = [ 
-            env.cortex 
+            env.cortex,
+            "-fdata-sections",      
+            "-ffunction-sections",
+            "-fsingle-precision-constant",   
         ], 
         LINKFLAGS = [ 
             env.cortex, 
             "-nostartfiles", 
+            "-Wall",
+            "-Wfatal-errors",            
             "-Wl,--no-undefined", 
-            "-Wl,-n",
+            "--entry=Reset_Handler",
             "-Xlinker", "--defsym=APP_BASE=" + env.app,
         ],  
         LDSCRIPT_PATH = join(env.framework_dir, 'samr3', env.BoardConfig().get('build.' + platform + '-ld')),            
