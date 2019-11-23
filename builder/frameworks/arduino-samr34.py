@@ -37,7 +37,10 @@ def dev_init(env, platform):
         env.Replace(UPLOAD_PORT = env.get("UPLOAD_PORT").replace('atprogram', ''))
 
     env.Append(
-        ASFLAGS=["-x", "assembler-with-cpp"],
+        ASFLAGS=[
+            env.cortex,
+            "-x", "assembler-with-cpp"
+        ],
         CPPDEFINES = [ 
             'SAML21',
             "__{}__".format(env.BoardConfig().get("build.mcu")), 
