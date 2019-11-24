@@ -3,7 +3,7 @@
   "name": "Microchip ATSAMR34 Xplained Pro (S)",
   "url": "https://www.microchip.com/design-centers/wireless-connectivity/low-power-wide-area-networks/lora-technology/sam-r34-r35",
   "build": {
-    "mcu":          "ATSAMR34J18B",
+    "mcu":          "SAMR34J18B",
     "core":         "samr34",
     "variant":      "samr34xpro",
     "arduino-ld":   "samr34j18b_flash.ld",
