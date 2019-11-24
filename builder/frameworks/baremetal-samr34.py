@@ -27,13 +27,14 @@ def dev_init(env, platform):
     create_template(env, [ 'main.c', 'startup_samr34.c' ])
     dev_compiler(env)
     env.app = env.BoardConfig().get('build.app', '0x0')  
+    env.asf = env.BoardConfig().get('build.asf', '0') 
     env.Append(
         ASFLAGS=[
             env.cortex,
             "-x", "assembler-with-cpp"
-        ],        
-        CPPDEFINES = [ 
-            "__{}__".format(env.BoardConfig().get("build.mcu")),
+        ],
+        CPPDEFINES = [             
+            "__{}__".format(env.BoardConfig().get("build.mcu")), 
          ],        
         CPPPATH = [       
             join(env.framework_dir, 'samr3'),
@@ -47,7 +48,7 @@ def dev_init(env, platform):
             "-Wfatal-errors",
             "-fno-omit-frame-pointer", 
             "-fno-strict-aliasing",                 
-            "-fno-exceptions",                                                                                    
+            "-fno-exceptions",                                                                                   
         ],  
         CXXFLAGS = [    
             "-O0",      
@@ -63,7 +64,7 @@ def dev_init(env, platform):
             env.cortex,
             "-fdata-sections",      
             "-ffunction-sections",
-            "-fsingle-precision-constant",   
+            "-fsingle-precision-constant",  
         ], 
         LINKFLAGS = [ 
             env.cortex, 
@@ -102,6 +103,14 @@ def dev_init(env, platform):
         ), 
         UPLOADCMD = dev_upload
     )
+    if env.asf != '0':
+        env.Append(
+            CPPPATH = [       
+                join(env.framework_dir, 'asf', 'include'),
+                join(env.framework_dir, 'asf', format(env.BoardConfig().get("build.core"))), # samr34
+            ],
+        )
+
     libs = []   
     # BAREMETAL
     libs.append(
@@ -115,4 +124,18 @@ def dev_init(env, platform):
             join("$BUILD_DIR", "_custom"), 
             join("$PROJECT_DIR", "lib"),                       
     ))             
+     # ASF
+    if env.asf != '0':
+
+        libs.append(
+            env.BuildLibrary(
+                join("$BUILD_DIR", "_asf"),
+                join(env.framework_dir, "asf", "src"), 
+        ))    
+        libs.append(
+            env.BuildLibrary(
+                join("$BUILD_DIR", "_asf_samr3"),
+                join(env.framework_dir, "asf", format(env.BoardConfig().get("build.core"))), # samr34
+        ))    
+
     env.Append(LIBS = libs)  
