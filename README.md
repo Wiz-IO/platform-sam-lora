@@ -1,4 +1,4 @@
-# Microchip Atmel ATSAM3x platform for PlatformIO
+# Microchip Atmel SAMR34/35 platform for PlatformIO
 
  **Version 0.0.7** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
 * OS Windows **( for now )** 
