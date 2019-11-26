@@ -1,6 +1,6 @@
 # Microchip Atmel SAMR34/35 platform for PlatformIO
 
- **Version 0.0.9** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
+ **Version 0.1.0** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
 * OS Windows **( for now )** 
 * * Baremetal 
 * * Arduino ( in process... )
