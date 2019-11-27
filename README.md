@@ -1,6 +1,6 @@
 # Microchip Atmel SAMR34/35 platform for PlatformIO
 
- **Version 0.1.0** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
+ **Version 0.1.1** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
 * OS Windows **( for now )** 
 * * Baremetal 
 * * Arduino ( in process... )
@@ -17,7 +17,7 @@ The project is in process and is very beta version - **may be bugs**
 
 ## Arduino Core
 * Arduino core
-* GPIO, Serial, I2C, SPI, RF
+* GPIO, ADC, Serial, I2C, SPI, RF
 * LoRa & LoraWAN
 * Variant: Microchip SAM R34 Xplained Pro
 * [Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/)
