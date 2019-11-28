@@ -13,15 +13,15 @@ The project is a work in progress and is very beta version - **there may be bugs
 ## Baremetal
 * CMSIS
 * [ASF ( v 3.47.0.96 )](https://github.com/Wiz-IO/platform-sam-lora/wiki/ASF)
-* [Blink](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/asf_blink)
+* * [Example: Blink](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/asf_blink)
 
 ## Arduino Core
 * Arduino core
 * GPIO, ADC, Serial, I2C, SPI, RF
 * LoRa & LoraWAN
 * Variant: Microchip SAM R34 Xplained Pro
-* [Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/)
-* [OLED from the screenshot](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/arduino_oled_i2c)
+* * [Example: Hello World](https://github.com/Wiz-IO/framework-sam-lora/blob/master/examples/arduino_hello_world/)
+* * [Example: OLED from the screenshot](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/arduino_oled_i2c)
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/sam34-oled.jpg)
 
