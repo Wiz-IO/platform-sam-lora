@@ -1,6 +1,6 @@
 # Microchip Atmel SAMR34/35 platform for PlatformIO
 
- **Version 0.1.1** ( [look here, if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
+ **Version 0.1.1** ( [look here, to see if there is something new](https://github.com/Wiz-IO/platform-sam-lora/wiki/VERSION) )
 * OS Windows **( for now )** 
 * * Baremetal 
 * * Arduino ( in process... )
@@ -8,7 +8,7 @@
 * [Framework Source Codes and Examples](https://github.com/Wiz-IO/framework-sam-lora)
 * [Wiki ( read )](https://github.com/Wiz-IO/platform-sam-lora/wiki)
 
-The project is in process and is very beta version - **may be bugs** 
+The project is a work in progress and is very beta version - **there may be bugs** 
 
 ## Baremetal
 * CMSIS
@@ -37,11 +37,12 @@ PlatformIO - Home - Platforms - Advanced Installation
 
 Paste link: https://github.com/Wiz-IO/platform-sam-lora
 
-## Fast Uninstal
-* goto C:\Users\USER_NAME\.platformio\platforms **delete** folder **sam-lora** ( builders )
-* goto C:\Users\USER_NAME\.platformio\packages **delete** folder **framework-sam-lora** ( sources )
-* goto C:\Users\USER_NAME\.platformio\packages **delete** folder **tool-sam-lora** ( uploader )
-* goto C:\Users\USER_NAME\.platformio\packages **delete** folder **toolchain-gccarmnoneeabi** (compiler )
+## Fast Uninstall
+Goto `C:\Users\USER_NAME\.platformio\platforms` and **delete**:
+* folder **sam-lora** ( builders )
+* folder **framework-sam-lora** ( sources )
+* folder **tool-sam-lora** ( uploader )
+* folder **toolchain-gccarmnoneeabi** (compiler )
 
 ![sam](https://raw.githubusercontent.com/Wiz-IO/LIB/master/images/lorawan-appdata.png)
 
@@ -66,7 +67,7 @@ monitor_speed = 115200
 ```
 
 ## Road Map
-* Baremetal Uploaders ( now work with atbackend/atprogram )
+* Baremetal Uploaders ( now works with atbackend/atprogram )
 * Baremetal ASF/CMSIS
 * Arduino Bootloader
 * Arduino Core
