@@ -15,6 +15,6 @@
         "maximum_ram_size": 40000,
         "maximum_size": 256000,
         "tool" : "atprogram",
-        "args" : [ "-i", "SWD", "-t", "edbg", "-d", "ATSAMR34J18B" ]
+        "args" : [ "-i", "SWD", "-t", "edbg", "-d", "ATSAMR34J18B", "-cl", "10MHz" ]
   }
 }
