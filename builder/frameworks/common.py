@@ -65,7 +65,7 @@ def atprogram(target, source, env):
     exe = cmd
     exe.append('program') 
     exe.append('-f')
-    exe.append(join(env.get("BUILD_DIR"), env['PROGNAME'] + ".hex"))
+    exe.append(join(env.get("BUILD_DIR"), env['PROGNAME'] + ".elf"))
     print('PROGRAMING')
     execute(exe)
 
