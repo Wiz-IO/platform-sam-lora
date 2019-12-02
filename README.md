@@ -13,7 +13,7 @@ The project is a work in progress and is very beta version - **there may be bugs
 ## Baremetal
 * CMSIS
 * [ASF ( v 3.47.0.96 )](https://github.com/Wiz-IO/platform-sam-lora/wiki/ASF)
-* * [Example: Blink](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/asf_blink)
+* * [Example: LED Blink](https://github.com/Wiz-IO/framework-sam-lora/tree/master/examples/asf_blink)
 
 ## Arduino Core
 * Arduino core
