@@ -6,11 +6,11 @@
 # 
 ##########################################################################
 
-import os, json, tempfile, shutil
+import os, json, tempfile, shutil, time
 from os.path import join, normpath, basename
 from shutil import copyfile
 from subprocess import check_output, CalledProcessError, call, Popen, PIPE
-from time import sleep
+from time import sleep, time
 from colorama import Fore
 
 def set_compiler(env):
@@ -51,23 +51,20 @@ def execute(cmd):
     return 0
 
 def atprogram(target, source, env):
+    start_time = time()
     arg = env.BoardConfig().get("upload.args")
     cmd = []
     cmd.append( join(env.tool_dir, "atbackend", "atprogram") ) 
     for a in arg: cmd.append(a)
-
-    exe = cmd
-    #exe.append('-v')        
-    exe.append('erase')
-    print('ERASING')
-    execute(exe)
-
-    exe = cmd
+    exe = cmd    
+    #exe.append('-v')
+    exe.append('chiperase') 
     exe.append('program') 
     exe.append('-f')
-    exe.append(join(env.get("BUILD_DIR"), env['PROGNAME'] + ".elf"))
-    print('PROGRAMING')
+    exe.append(join(env.get("BUILD_DIR"), env['PROGNAME'] + ".hex"))
+    #print('PROGRAMING', exe)
     execute(exe)
+    print( "Elapsed time: {0:.2f} s".format(time() - start_time) )
 
 def create_template(env, files):
     for src in files:

@@ -87,6 +87,8 @@ def dev_init(env, platform):
             "-fno-use-cxa-atexit", 
             "--entry=Reset_Handler",
             "-Xlinker", "--defsym=APP_BASE=" + env.app,
+            "-Xlinker", "--gc-sections",              
+            "-Wl,--gc-sections",
         ],  
         LDSCRIPT_PATH = join(env.framework_dir, 'samr3', env.BoardConfig().get('build.' + platform + '-ld')), 
         LIBPATH = [], 
