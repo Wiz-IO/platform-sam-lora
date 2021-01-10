@@ -75,13 +75,15 @@ The code has a custom experimental "bootload" uploader and you can use it as an 
 
 https://github.com/Wiz-IO/platform-sam-lora/blob/master/builder/frameworks/SAMR_FU.py
 
+
 The main upload entry function is:
 
-dev_upload(target, source, env)
+**dev_upload(target, source, env)**
 
 https://github.com/Wiz-IO/platform-sam-lora/blob/master/builder/frameworks/arduino-samr34.py#L14
 
 There are conditions for distinguishing the tool used - edit and test...
+
 
 Create new board, Copy/Paste/Rename and edit boards/samr34xpro.json as experimental board
 
