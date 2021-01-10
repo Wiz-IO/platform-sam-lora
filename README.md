@@ -66,6 +66,25 @@ monitor_port = COMx
 monitor_speed = 115200  
 ```
 
+## CUSTOM UPLOADERS
+The Platform use Microchip SAM R34 Xplained Pro with onboard EDBG uploader 
+
+I don't have a J-LINK, Atmel ICE, stand alone modules and/or custom bootloaders to add more uploaders
+
+The code has a custom experimental "bootload" uploader and you can use it as an entry point for your experimental uploaders
+
+https://github.com/Wiz-IO/platform-sam-lora/blob/master/builder/frameworks/SAMR_FU.py
+
+The main upload entry function is:
+
+dev_upload(target, source, env)
+
+https://github.com/Wiz-IO/platform-sam-lora/blob/master/builder/frameworks/arduino-samr34.py#L14
+
+There are conditions for distinguishing the tool used - edit and test...
+
+Create new board, Copy/Paste/Rename and edit boards/samr34xpro.json as experimental board
+
 ## Road Map
 * Baremetal Uploaders ( now works with atbackend/atprogram )
 * Baremetal ASF/CMSIS
